@@ -17,7 +17,7 @@ import { Container, Typography, Grid, Card, CardMedia, CardContent, Box, CardAct
 // Importazione dei componenti di navigazione
 import { Link } from 'react-router-dom';
 // Importazione delle icone Material-UI
-import { ShoppingCart as ShoppingCartIcon, TrendingUp as TrendingUpIcon } from '@mui/icons-material';
+import { ShoppingCart as ShoppingCartIcon, TrendingUp as TrendingUpIcon, Visibility as VisibilityIcon } from '@mui/icons-material'; // Added VisibilityIcon for clarity if needed
 
 // Importazione della configurazione API centralizzata
 import { API_BASE_URL } from '../../config/api';
@@ -88,122 +88,110 @@ const AboutSection = memo(() => (
  * @param {Object} props.product.rating - Dati sulla valutazione del prodotto
  * @param {Function} props.handleImageError - Funzione per gestire errori nel caricamento dell'immagine
  */
-const ProductCard = memo(({ product, handleImageError }) => {
-  // Valori memorizzati per evitare calcoli ripetuti ad ogni render
-  const discount = useMemo(() => product.discount || 0, [product.discount]);
+const ProductCard = memo(({ product }) => { // Removed unused handleImageError prop
   const rating = useMemo(() => product.rating?.average || 0, [product.rating]);
   const ratingCount = useMemo(() => product.rating?.count || 0, [product.rating]);
-  
+  const discount = useMemo(() => parseFloat(product.discount) || 0, [product.discount]);
+  const price = useMemo(() => parseFloat(product.price) || 0, [product.price]);
+
+  const discountedPrice = useMemo(() => {
+    if (discount > 0) {
+      return price * (1 - discount / 100);
+    }
+    return price;
+  }, [price, discount]);
+
   return (
-    <Card 
-      sx={{ 
-        height: '100%', 
-        display: 'flex', 
+    <Card
+      sx={{
+        height: '100%',
+        display: 'flex',
         flexDirection: 'column',
-        transition: 'all 0.3s',
-        position: 'relative',
-        ':hover': { 
+        transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
+        '&:hover': {
           transform: 'translateY(-8px)',
-          boxShadow: 6
+          boxShadow: 6, // MUI elevation shorthand for a deeper shadow
         },
+        position: 'relative', // Ensure Card is stacking context for Chips
       }}
     >
       {product.trending && (
-        <Chip 
+        <Chip
           label="Trending"
           color="primary"
           icon={<TrendingUpIcon />}
-          sx={{ 
-            position: 'absolute', 
-            top: 10, 
-            left: 10, 
-            fontWeight: 'medium'
-          }} 
+          size="small"
+          sx={{
+            position: 'absolute',
+            top: 8,
+            left: 8,
+            fontWeight: 'medium',
+            zIndex: 1, // Ensure chip is on top
+          }}
         />
       )}
       {discount > 0 && (
-        <Chip 
+        <Chip
           label={`${discount}% OFF`}
-          color="error"
-          sx={{ 
-            position: 'absolute', 
-            top: 10, 
-            right: 10, 
-            fontWeight: 'bold'
-          }} 
+          color="error" // Using "error" for discount, which is typically red
+          size="small"
+          sx={{
+            position: 'absolute',
+            top: product.trending ? 38 : 8, // Adjust if trending chip is also present
+            right: 8,
+            fontWeight: 'bold',
+            zIndex: 1, // Ensure chip is on top
+          }}
         />
       )}
-      <Link to={`/products/${product.id}`} style={{ textDecoration: 'none' }}>        <Box sx={{ height: 200, bgcolor: '#f5f5f5', p: 2 }}>
+      <Link to={`/products/${product.id}`} style={{ textDecoration: 'none', display: 'block' /* Ensure link takes up block space */ }}>
+        {/* Image container Box */}
+        <Box
+          sx={{
+            // Removed fixed height. Height will be determined by ImageWithFallback + padding.
+            bgcolor: '#f5f5f5', // Background for the padding area and image container
+            p: 2, // Padding around the ImageWithFallback component
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            // overflow: 'hidden', // Not strictly necessary here as ImageWithFallback handles its own overflow
+          }}
+        >
           <ImageWithFallback
             src={product.image}
             alt={product.name}
-            height={200}
-            retryCount={2}
+            height={200} // The actual image area will be 200px high
+            width="100%"  // ImageWithFallback will take full width of parent's content area
+            retryCount={3}
           />
         </Box>
-        <CardContent sx={{ flexGrow: 1 }}>
-          <Typography gutterBottom variant="h6" component="h2" color="text.primary">
-            {product.name}
-          </Typography>
-          <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-            <Rating 
-              name={`rating-${product.id}`}
-              value={rating}
-              precision={0.5}
-              readOnly
-              size="small"
-            />
-          <Typography variant="body2" sx={{ ml: 1 }}>
+      </Link>
+      <CardContent sx={{ flexGrow: 1, pt: 2 /* Adjusted padding */ }}>
+        <Typography gutterBottom variant="h6" component="div" noWrap title={product.name}>
+          {product.name}
+        </Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+          <Rating name="read-only" value={rating} precision={0.5} readOnly size="small" />
+          <Typography variant="body2" color="text.secondary" sx={{ ml: 0.5 }}>
             ({ratingCount})
           </Typography>
-          </Box>
-          {discount > 0 ? (
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Typography variant="h6" color="error" fontWeight="bold">
-                ${product.price}
-              </Typography>
-              <Typography 
-                variant="body2" 
-                sx={{ 
-                  textDecoration: 'line-through', 
-                  color: 'text.secondary',
-                  ml: 1 
-                }}
-              >
-                ${product.originalPrice}
-              </Typography>
-            </Box>
-          ) : (
-            <Typography variant="h6" color="primary" fontWeight="bold">
-              ${product.price}
+        </Box>
+        <Box sx={{ display: 'flex', alignItems: 'baseline', minHeight: '2.5em' /* Ensure consistent height */ }}>
+          <Typography variant="h6" color="primary.main" sx={{ mr: discount > 0 ? 1 : 0 }}>
+            ${discountedPrice.toFixed(2)}
+          </Typography>
+          {discount > 0 && (
+            <Typography variant="body2" color="text.secondary" sx={{ textDecoration: 'line-through' }}>
+              ${price.toFixed(2)}
             </Typography>
           )}
-          <Typography 
-            variant="body2" 
-            color="text.secondary"
-            sx={{
-              mt: 1,
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              display: '-webkit-box',
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical',
-            }}
-          >
-            {product.description}
-          </Typography>
-        </CardContent>
-      </Link>
-      <CardActions sx={{ p: 2, pt: 0, mt: 'auto' }}>
-        <Button 
-          fullWidth 
-          variant="contained" 
-          component={Link}
-          to={`/products/${product.id}`}
-          color="primary"
-          startIcon={<ShoppingCartIcon />}
-          sx={{ borderRadius: '50px' }}
-        >
+        </Box>
+        <Typography variant="body2" color="text.secondary" sx={{ mt: 1, height: '3em', overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }} title={product.short_description || product.description}>
+          {product.short_description || product.description || 'View details for more information.'}
+        </Typography>
+      </CardContent>
+      <CardActions sx={{ justifyContent: 'center', px: 2, pb: 2, mt: 'auto' /* Push actions to bottom */ }}>
+        <Button component={Link} to={`/products/${product.id}`} variant="contained" size="medium" startIcon={<VisibilityIcon />}>
           View Details
         </Button>
       </CardActions>
@@ -227,7 +215,7 @@ const ProductSkeletonCard = memo(() => (
   </Card>
 ));
 
-const ProductsSection = memo(({ loading, trendingProducts, handleImageError }) => {
+const ProductsSection = memo(({ loading, trendingProducts }) => {
   return (
     <Box sx={{ my: 8 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
@@ -258,9 +246,9 @@ const ProductsSection = memo(({ loading, trendingProducts, handleImageError }) =
         ) : (
           trendingProducts.map((product) => (
             <Grid item key={product.id} xs={12} sm={6} md={3}>
-              <ProductCard 
+              <ProductCard
                 product={product}
-                handleImageError={handleImageError}
+                // handleImageError prop was unused and can be removed from ProductCard definition
               />
             </Grid>
           ))
@@ -357,7 +345,6 @@ function Home() {
       <ProductsSection 
         loading={loading} 
         trendingProducts={trendingProducts}
-        handleImageError={handleImageError}
       />
     </Container>
   );
