@@ -1,0 +1,19 @@
+[[redirects]]
+  from = "/api/*"
+  to = "http://ruggierosmn.altervista.org/API/:splat"
+  status = 200
+  force = true
+
+# Regola specifica per le immagini
+[[redirects]]
+  from = "/api/api.php?path=image*"
+  to = "http://ruggierosmn.altervista.org/API/api.php?path=image:splat"
+  status = 200
+  force = true
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
+    Access-Control-Allow-Headers = "Origin, X-Requested-With, Content-Type, Accept, Authorization"

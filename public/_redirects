@@ -1,0 +1,11 @@
+# Redirect all API calls to the backend server
+/api/* http://ruggierosmn.altervista.org/API/:splat 200!
+
+# Ensure that image endpoints are properly proxied with query parameters
+/api/api.php* http://ruggierosmn.altervista.org/API/api.php:splat 200!
+
+# Specific rule for image paths with query parameters
+/api/api.php?path=image* http://ruggierosmn.altervista.org/API/api.php?path=image:splat 200!
+
+# SPA fallback
+/* /index.html 200
