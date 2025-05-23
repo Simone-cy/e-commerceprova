@@ -94,7 +94,7 @@ const ImageWithFallback = ({
   };
 
   return (
-    <Box 
+    <Box
       sx={{
         position: 'relative',
         width: width || '100%',
@@ -103,10 +103,11 @@ const ImageWithFallback = ({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#f5f5f5',
+        overflow: 'hidden', // Add this line
         ...sx
       }}
     >
-      {isLoading && (
+      {isLoading && !error && (
         <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <CircularProgress size={30} />
         </Box>
@@ -118,16 +119,14 @@ const ImageWithFallback = ({
         onError={handleError}
         onLoad={handleLoad}
         style={{
+          display: isLoading || error ? 'none' : 'block',
           width: '100%',
           height: '100%',
           objectFit: 'contain',
-          opacity: isLoading ? 0 : 1,
-          transition: 'opacity 0.3s ease',
+          // Ensure 'image-rendering: pixelated' is removed if present and not needed
         }}
-        {...props}
       />
-      
-      {error && retries >= retryCount && (
+      {error && imageSrc === fallbackSrc && !isLoading && (
         <Box sx={{ position: 'absolute', bottom: 0, left: 0, right: 0, p: 1, backgroundColor: 'rgba(0,0,0,0.5)' }}>
           <Typography variant="caption" sx={{ color: 'white', fontSize: '0.7rem' }}>
             Impossibile caricare l'immagine
