@@ -1,10 +1,6 @@
 /**
- * ReviewContext.jsx
- * 
- * Questo file implementa il contesto per la gestione delle recensioni dei prodotti
- * nell'applicazione e-commerce. Fornisce funzionalità per recuperare, 
- * aggiungere, aggiornare ed eliminare recensioni, con aggiornamenti ottimistici 
- * dell'interfaccia utente e rollback in caso di errori.
+ * ReviewContext.jsx: Contesto per la gestione delle recensioni dei prodotti.
+ * Fornisce funzionalità per recuperare, aggiungere, aggiornare ed eliminare recensioni.
  */
 
 // Importazione degli hook e delle utilità React necessarie
@@ -15,17 +11,15 @@ import { AuthContext } from './AuthContext';
 import { API_BASE_URL } from '../config/api';
 
 /**
- * Creazione del contesto per le recensioni
- * Sarà utilizzato per fornire funzionalità di recensione a tutta l'applicazione
+ * Contesto React per le recensioni.
  */
 export const ReviewContext = createContext();
 
 /**
- * Provider del contesto per le recensioni
- * Gestisce lo stato delle recensioni e fornisce metodi per interagire con esse
- * 
- * @param {Object} props - Proprietà del componente
- * @param {React.ReactNode} props.children - Componenti figli che avranno accesso al contesto
+ * Provider per il contesto Recensioni.
+ * Gestisce stato e interazioni delle recensioni.
+ * @param {Object} props Props del componente.
+ * @param {React.ReactNode} props.children Componenti figli.
  */
 export function ReviewProvider({ children }) {
   // Accesso al contesto di autenticazione per ottenere i dati dell'utente
@@ -42,10 +36,9 @@ export function ReviewProvider({ children }) {
   const [error, setError] = useState(null);
 
   /**
-   * Recupera le recensioni per un prodotto specifico
-   * 
-   * @param {number} productId - L'ID del prodotto da cui recuperare le recensioni
-   * @returns {Promise<void>} - Promise che si risolve quando le recensioni sono state recuperate
+   * Recupera le recensioni per un prodotto specifico.
+   * @param {number} productId ID del prodotto.
+   * @returns {Promise<void>}
    */
   const fetchReviews = useCallback(async (productId) => {
     setLoading(true);
@@ -76,13 +69,9 @@ export function ReviewProvider({ children }) {
   }, []);
 
   /**
-   * Aggiunge una nuova recensione
-   * 
-   * @param {Object} reviewData - Dati della recensione
-   * @param {number} reviewData.productId - ID del prodotto
-   * @param {number} reviewData.rating - Punteggio della recensione (1-5)
-   * @param {string} [reviewData.comment] - Commento testuale (opzionale)
-   * @returns {Promise<boolean>} - Promise che si risolve a true se l'operazione ha successo
+   * Aggiunge una nuova recensione.
+   * @param {Object} reviewData Dati della recensione (productId, rating, comment).
+   * @returns {Promise<boolean>} True se l'operazione ha successo.
    */
   const addReview = useCallback(async (reviewData) => {
     if (!isAuthenticated() || !token) {
@@ -125,13 +114,9 @@ export function ReviewProvider({ children }) {
   }, [isAuthenticated, token, currentProductId, fetchReviews]);
 
   /**
-   * Aggiorna una recensione esistente
-   * 
-   * @param {Object} reviewData - Dati della recensione
-   * @param {number} reviewData.reviewId - ID della recensione da aggiornare
-   * @param {number} reviewData.rating - Nuovo punteggio
-   * @param {string} [reviewData.comment] - Nuovo commento
-   * @returns {Promise<boolean>} - Promise che si risolve a true se l'operazione ha successo
+   * Aggiorna una recensione esistente.
+   * @param {Object} reviewData Dati della recensione (reviewId, rating, comment).
+   * @returns {Promise<boolean>} True se l'operazione ha successo.
    */
   const updateReview = useCallback(async (reviewData) => {
     if (!isAuthenticated() || !token) {
@@ -173,10 +158,9 @@ export function ReviewProvider({ children }) {
     }
   }, [isAuthenticated, token, currentProductId, fetchReviews]);
   /**
-   * Elimina una recensione dal database
-   * 
-   * @param {number} reviewId - ID della recensione da eliminare
-   * @returns {Promise<boolean>} - Promise che si risolve a true se l'operazione ha successo
+   * Elimina una recensione.
+   * @param {number} reviewId ID della recensione da eliminare.
+   * @returns {Promise<boolean>} True se l'operazione ha successo.
    */
   const deleteReview = useCallback(async (reviewId) => {
     // Verifica che l'utente sia autenticato prima di procedere
@@ -234,10 +218,9 @@ export function ReviewProvider({ children }) {
     }
   }, [isAuthenticated, token, currentProductId, fetchReviews]);
   /**
-   * Verifica se l'utente ha già recensito un prodotto specifico
-   * 
-   * @param {number} productId - ID del prodotto da verificare
-   * @returns {boolean} - true se l'utente ha già recensito questo prodotto, false altrimenti
+   * Verifica se l'utente autenticato ha già recensito un prodotto.
+   * @param {number} productId ID del prodotto.
+   * @returns {boolean} True se l'utente ha già recensito.
    */
   const hasUserReviewed = useCallback((productId) => {
     // Se l'utente non è autenticato o non abbiamo i dati utente, non può aver recensito
@@ -247,10 +230,9 @@ export function ReviewProvider({ children }) {
     // Se il currentProductId è diverso da productId, ritorno false perché stiamo visualizzando un altro prodotto
     return currentProductId === parseInt(productId) && reviews.some(review => review.userId === user.id);
   }, [isAuthenticated, user, reviews, currentProductId]);  /**
-   * Ottiene la recensione dell'utente corrente per un prodotto specifico
-   * 
-   * @param {number} productId - ID del prodotto
-   * @returns {Object|null} - La recensione dell'utente o null se non trovata
+   * Ottiene la recensione dell'utente corrente per un prodotto.
+   * @param {number} productId ID del prodotto.
+   * @returns {Object|null} La recensione dell'utente o null.
    */
   const getUserReview = useCallback((productId) => {
     // Se l'utente non è autenticato o non abbiamo i dati utente, non può avere recensioni
@@ -264,7 +246,7 @@ export function ReviewProvider({ children }) {
   }, [isAuthenticated, user, reviews, currentProductId]);
 
   /**
-   * Memorizza il valore del contesto per evitare render non necessari
+   * Valore memoizzato del contesto per ottimizzare le performance.
    */
   const contextValue = useMemo(() => ({
     reviews,                // Array di recensioni per il prodotto corrente
@@ -293,7 +275,7 @@ export function ReviewProvider({ children }) {
   ]);
 
   /**
-   * Render del provider che fornisce il contesto a tutti i componenti figli
+   * Render del provider che fornisce il contesto ai componenti figli.
    */
   return (
     <ReviewContext.Provider value={contextValue}>

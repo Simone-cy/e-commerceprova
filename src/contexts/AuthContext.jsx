@@ -1,10 +1,6 @@
 /**
- * AuthContext.jsx
- * 
- * Questo file implementa il contesto per la gestione dell'autenticazione
- * nell'applicazione e-commerce. Fornisce funzionalità per login, logout,
- * registrazione e gestione della sessione utente, con persistenza dei dati
- * attraverso localStorage.
+ * AuthContext.jsx: Contesto per la gestione dell'autenticazione.
+ * Include login, logout, registrazione, gestione sessione e persistenza.
  */
 
 // Importazione degli hook e delle utilità React necessarie
@@ -14,17 +10,15 @@ import { createContext, useState, useEffect, useMemo, useCallback } from 'react'
 import { API_BASE_URL } from '../config/api';
 
 /**
- * Creazione del contesto di autenticazione
- * Sarà utilizzato per fornire funzionalità di autenticazione a tutta l'applicazione
+ * Contesto React per l'autenticazione.
  */
 export const AuthContext = createContext();
 
 /**
- * Provider del contesto di autenticazione
- * Gestisce lo stato dell'utente e fornisce metodi per autenticazione e registrazione
- * 
- * @param {Object} props - Proprietà del componente
- * @param {React.ReactNode} props.children - Componenti figli che avranno accesso al contesto
+ * Provider per il contesto Autenticazione.
+ * Gestisce stato utente, login, registrazione.
+ * @param {Object} props Props del componente.
+ * @param {React.ReactNode} props.children Componenti figli.
  */
 export function AuthProvider({ children }) {
   /**

@@ -1,14 +1,6 @@
 /**
- * Componente Footer
- * 
- * Questo componente rappresenta il piè di pagina dell'applicazione e-commerce.
- * Contiene informazioni sul copyright, link alle tecnologie utilizzate e
- * dettagli sul progetto.
- * 
- * Il componente è ottimizzato con React.memo per evitare re-rendering
- * non necessari, dato che il suo contenuto è principalmente statico.
- * 
- * @module components/layout/Footer
+ * Footer.jsx: Componente piè di pagina dell'applicazione.
+ * Contiene copyright, link e info sul progetto. Ottimizzato con React.memo.
  */
 
 // Importazione dei componenti Material-UI necessari per la costruzione del footer
@@ -17,13 +9,7 @@ import { Box, Typography, Container, Link } from '@mui/material';
 import { memo } from 'react';
 
 /**
- * Stili CSS per il footer dell'applicazione
- * 
- * Definisce l'aspetto visivo del footer con:
- * - Padding e margini per lo spazio interno ed esterno
- * - Bordo superiore per separare visivamente il footer dal contenuto
- * - Allineamento del testo centrato
- * - Colore di sfondo coordinato con il tema
+ * Stili CSS per il footer.
  */
 const footerStyles = {
   py: 6,                   // Padding verticale (top e bottom)
@@ -35,18 +21,9 @@ const footerStyles = {
 };
 
 /**
- * Componente Footer memorizzato
- * 
- * Questo componente è avvolto in React.memo per ottimizzare le prestazioni
- * evitando re-rendering quando le props non cambiano, un'ottimizzazione
- * particolarmente utile per elementi statici come un footer.
- * 
- * Il footer contiene:
- * - Informazioni di copyright con l'anno corrente
- * - Link alle principali tecnologie utilizzate (React, Material UI)
- * - Informazioni sul progetto
- * 
- * @returns {JSX.Element} Il componente footer renderizzato
+ * Componente Footer (memoizzato).
+ * Mostra copyright, info tecnologie e progetto.
+ * @returns {JSX.Element} Il componente footer.
  */
 const Footer = memo(() => {
   // Ottiene dinamicamente l'anno corrente per mantenere aggiornato il copyright

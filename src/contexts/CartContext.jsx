@@ -1,10 +1,7 @@
 /**
- * CartContext.jsx
- * 
- * Questo file implementa il contesto per la gestione del carrello acquisti
- * nell'applicazione e-commerce. Fornisce funzionalità per recuperare,
- * aggiungere, aggiornare e rimuovere prodotti dal carrello, con aggiornamenti
- * ottimistici dell'interfaccia utente e rollback in caso di errori.
+ * CartContext.jsx: Contesto per la gestione del carrello acquisti.
+ * Include recupero, aggiunta, aggiornamento, rimozione prodotti,
+ * con UI ottimistica e rollback.
  */
 
 // Importazione degli hook e delle utilità React necessarie
@@ -15,17 +12,15 @@ import { AuthContext } from './AuthContext';
 import { API_BASE_URL } from '../config/api';
 
 /**
- * Creazione del contesto per il carrello
- * Sarà utilizzato per fornire funzionalità del carrello a tutta l'applicazione
+ * Contesto React per il carrello.
  */
 export const CartContext = createContext();
 
 /**
- * Provider del contesto per il carrello
- * Gestisce lo stato dei prodotti nel carrello e fornisce metodi per interagire con essi
- * 
- * @param {Object} props - Proprietà del componente
- * @param {React.ReactNode} props.children - Componenti figli che avranno accesso al contesto
+ * Provider per il contesto Carrello.
+ * Gestisce stato e interazioni del carrello.
+ * @param {Object} props Props del componente.
+ * @param {React.ReactNode} props.children Componenti figli.
  */
 export function CartProvider({ children }) {
   // Utilizzo del contesto di autenticazione per accedere alle informazioni sull'utente
@@ -36,10 +31,8 @@ export function CartProvider({ children }) {
   const [loading, setLoading] = useState(false); // Stato di caricamento per operazioni asincrone
   const [error, setError] = useState(null);   // Eventuali errori durante le operazioni
     /**
-   * Funzione per recuperare i dati del carrello dal server
-   * Utilizza useCallback per evitare ri-renderizzazioni non necessarie
-   * 
-   * @returns {Promise<void>} - Promise che si risolve quando il carrello è stato caricato
+   * Recupera i dati del carrello dal server.
+   * @returns {Promise<void>} Promise al caricamento del carrello.
    */
   const fetchCart = useCallback(async () => {
     // Verifica che l'utente sia autenticato prima di procedere
@@ -77,8 +70,7 @@ export function CartProvider({ children }) {
     }
   }, [isAuthenticated, token]);
   /**
-   * Effect che ricarica il carrello quando lo stato di autenticazione cambia
-   * Se l'utente si autentica, carica il suo carrello; se si disconnette, svuota il carrello
+   * Effect che ricarica il carrello quando lo stato di autenticazione cambia.
    */
   useEffect(() => {
     if (isAuthenticated() && token) {
@@ -91,13 +83,12 @@ export function CartProvider({ children }) {
   }, [isAuthenticated, token, fetchCart]); // Dipendenze dell'effect
   
   /**
-   * Aggiunge un prodotto al carrello o incrementa la quantità se già presente
-   * Implementa un aggiornamento ottimistico dell'interfaccia con rollback in caso di errore
-   * 
-   * @param {Object} product - Il prodotto da aggiungere al carrello
-   * @param {string} product.id - ID univoco del prodotto
-   * @param {number} [product.quantity=1] - Quantità del prodotto da aggiungere
-   * @returns {Promise<void>} Promise che si risolve quando l'operazione è completata
+   * Aggiunge un prodotto al carrello o ne incrementa la quantità.
+   * UI ottimistica con rollback.
+   * @param {Object} product Prodotto da aggiungere.
+   * @param {string} product.id ID univoco del prodotto.
+   * @param {number} [product.quantity=1] Quantità del prodotto.
+   * @returns {Promise<void>} Promise al completamento.
    */
   const addToCart = useCallback(async (product) => { 
     // Verifica che l'utente sia autenticato prima di procedere
@@ -163,12 +154,12 @@ export function CartProvider({ children }) {
       // Reimposta lo stato di caricamento
       setLoading(false);
     }
-  }, [isAuthenticated, token, cart, fetchCart]);  /**
-   * Rimuove un prodotto dal carrello
-   * Implementa un aggiornamento ottimistico dell'interfaccia con rollback in caso di errore
-   * 
-   * @param {string} productId - L'ID del prodotto da rimuovere
-   * @returns {Promise<void>} Promise che si risolve quando l'operazione è completata
+  }, [isAuthenticated, token, cart, fetchCart]);  
+  /**
+   * Rimuove un prodotto dal carrello.
+   * UI ottimistica con rollback.
+   * @param {string} productId ID prodotto da rimuovere.
+   * @returns {Promise<void>} Promise al completamento.
    */
   const removeFromCart = useCallback(async (productId) => {
     // Verifica che l'utente sia autenticato prima di procedere
@@ -211,13 +202,13 @@ export function CartProvider({ children }) {
     } finally {
       setLoading(false);
     }
-  }, [isAuthenticated, token, cart]);  /**
-   * Aggiorna la quantità di un prodotto nel carrello
-   * Se la quantità è 0 o negativa, rimuove il prodotto dal carrello
-   * 
-   * @param {string} productId - L'ID del prodotto da aggiornare
-   * @param {number} quantity - La nuova quantità del prodotto
-   * @returns {Promise<void>} Promise che si risolve quando l'operazione è completata
+  }, [isAuthenticated, token, cart]);  
+  /**
+   * Aggiorna la quantità di un prodotto nel carrello.
+   * Rimuove il prodotto se la quantità è <= 0.
+   * @param {string} productId ID prodotto da aggiornare.
+   * @param {number} quantity Nuova quantità.
+   * @returns {Promise<void>} Promise al completamento.
    */
   const updateQuantity = useCallback(async (productId, quantity) => {
     // Verifica che l'utente sia autenticato prima di procedere
@@ -273,11 +264,11 @@ export function CartProvider({ children }) {
     } finally {
       setLoading(false);
     }
-  }, [isAuthenticated, token, cart, removeFromCart]);  /**
-   * Svuota completamente il carrello
-   * Implementa un aggiornamento ottimistico dell'interfaccia con rollback in caso di errore
-   * 
-   * @returns {Promise<void>} Promise che si risolve quando l'operazione è completata
+  }, [isAuthenticated, token, cart, removeFromCart]);  
+  /**
+   * Svuota completamente il carrello.
+   * UI ottimistica con rollback.
+   * @returns {Promise<void>} Promise al completamento.
    */
   const clearCart = useCallback(async () => {
     // Verifica che l'utente sia autenticato prima di procedere
@@ -318,28 +309,23 @@ export function CartProvider({ children }) {
     }
   }, [isAuthenticated, token, cart]);
   /**
-   * Calcola il prezzo totale del carrello
-   * Utilizza useMemo per calcolare il valore solo quando il carrello cambia
-   * 
-   * @returns {number} Il prezzo totale di tutti i prodotti nel carrello
+   * Calcola il prezzo totale del carrello.
+   * @returns {number} Prezzo totale.
    */
   const cartTotal = useMemo(() => {
     return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
   }, [cart]);
   
   /**
-   * Calcola il numero totale di articoli nel carrello
-   * Utilizza useMemo per calcolare il valore solo quando il carrello cambia
-   * 
-   * @returns {number} Il numero totale di articoli nel carrello
+   * Calcola il numero totale di articoli nel carrello.
+   * @returns {number} Numero totale articoli.
    */
   const cartItemCount = useMemo(() => {
     return cart.reduce((count, item) => count + item.quantity, 0);
   }, [cart]);
 
   /**
-   * Memoizza il valore del contesto per evitare renderizzazioni inutili
-   * Comprende tutti i valori e le funzioni che saranno disponibili nel contesto
+   * Valore memoizzato del contesto per ottimizzare le performance.
    */
   const contextValue = useMemo(() => ({ 
     cart,                  // Array dei prodotti nel carrello
@@ -365,8 +351,7 @@ export function CartProvider({ children }) {
     cartItemCount
   ]);
   /**
-   * Renderizza il provider del contesto con i valori memoizzati
-   * Tutti i componenti figli avranno accesso al contesto
+   * Renderizza il provider del contesto.
    */
   return (
     <CartContext.Provider value={contextValue}>

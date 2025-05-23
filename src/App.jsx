@@ -1,14 +1,7 @@
 /**
- * App.jsx - Componente principale dell'applicazione e-commerce
- * 
- * Questo file rappresenta il punto di ingresso dell'applicazione React, dove vengono definiti:
- * - Struttura di navigazione con React Router
- * - Configurazione del tema dell'UI con Material-UI
- * - Provider di contesto per la gestione dello stato globale
- * - Layout principale dell'applicazione
- * 
- * L'applicazione è strutturata in una gerarchia di componenti che include pagine pubbliche
- * accessibili a tutti gli utenti e pagine protette che richiedono autenticazione.
+ * App.jsx: Componente principale e punto di ingresso dell'applicazione.
+ * Definisce routing, tema, provider di contesto e layout.
+ * Include gestione di rotte pubbliche e protette.
  */
 
 // Importazione dei componenti di routing di React Router per gestire la navigazione
@@ -41,11 +34,8 @@ import { WishlistProvider } from './contexts/WishlistContext';
 import { ReviewProvider } from './contexts/ReviewContext';
 
 /**
- * Creazione del tema personalizzato per l'applicazione
- * 
- * Il tema definisce la palette di colori principale e altre proprietà visive
- * che verranno applicate in modo coerente a tutti i componenti Material-UI.
- * Questo garantisce un'esperienza utente visivamente uniforme.
+ * Tema Material-UI personalizzato per l'applicazione.
+ * Definisce la palette di colori (primario, secondario) per coerenza visiva.
  */
 const theme = createTheme({
   palette: {
@@ -59,19 +49,10 @@ const theme = createTheme({
 });
 
 /**
- * Componente di layout principale che avvolge tutte le pagine dell'applicazione
- * 
- * Questo componente definisce la struttura base di ogni pagina, composta da:
- * - Navbar (header) in cima
- * - Contenuto principale che si espande per occupare lo spazio disponibile
- * - Footer in basso
- * 
- * Il layout utilizza flexbox per garantire che il footer resti sempre in fondo,
- * anche quando il contenuto della pagina è minimo.
- * 
- * @param {Object} props - Proprietà del componente
- * @param {React.ReactNode} props.children - Contenuto da renderizzare nella parte centrale
- * @returns {JSX.Element} Layout completo dell'applicazione
+ * Layout principale dell'applicazione (Navbar, Contenuto, Footer).
+ * Utilizza flexbox per mantenere il footer in basso.
+ * @param {Object} props Contiene `children` da renderizzare.
+ * @returns {JSX.Element} Struttura di layout.
  */
 const MainLayout = ({ children }) => (
   <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
@@ -82,20 +63,10 @@ const MainLayout = ({ children }) => (
 );
 
 /**
- * Componente principale dell'applicazione e-commerce
- * 
- * Questo componente è responsabile di:
- * 1. Applicare il tema Material-UI a tutta l'applicazione
- * 2. Configurare i provider di contesto per gestire lo stato globale
- * 3. Definire le rotte dell'applicazione e la navigazione
- * 4. Strutturare il layout base dell'applicazione
- * 
- * L'applicazione utilizza un sistema di routing che distingue tra:
- * - Rotte pubbliche: accessibili a tutti gli utenti
- * - Rotte protette: accessibili solo agli utenti autenticati
- * - Rotte amministrative: accessibili solo agli utenti con privilegi di amministratore
- * 
- * @returns {JSX.Element} L'applicazione completa con routing e provider configurati
+ * Componente App: radice dell'applicazione.
+ * Configura ThemeProvider, CssBaseline, e i provider di contesto (Auth, Cart, Wishlist, Review).
+ * Definisce le rotte principali (pubbliche, protette, admin) all'interno di MainLayout.
+ * @returns {JSX.Element} Applicazione renderizzata.
  */
 function App() {
   return (

@@ -1,13 +1,6 @@
 /**
- * Home.jsx
- * 
- * Questo file implementa la pagina principale (homepage) dell'applicazione e-commerce.
- * Presenta una struttura con sezioni contenenti:
- * - Una sezione hero in cima con un'introduzione al negozio
- * - Una sezione "Chi siamo" che descrive il negozio
- * - Una vetrina di prodotti in evidenza
- * - Una sezione con le offerte speciali
- * - Una sezione finale con call-to-action
+ * Home.jsx: Pagina principale (homepage) dell'e-commerce.
+ * Mostra sezioni hero, "Chi siamo", prodotti in evidenza e offerte.
  */
 
 // Importazione degli hook e delle utilità React necessarie
@@ -15,7 +8,7 @@ import { useState, useEffect, memo, useCallback, useMemo } from 'react';
 // Importazione dei componenti Material-UI
 import { Container, Typography, Grid, Card, CardMedia, CardContent, Box, CardActions, Button, Chip, Rating, Skeleton } from '@mui/material';
 // Importazione dei componenti di navigazione
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 // Importazione delle icone Material-UI
 import { ShoppingCart as ShoppingCartIcon, TrendingUp as TrendingUpIcon, Visibility as VisibilityIcon } from '@mui/icons-material'; // Added VisibilityIcon for clarity if needed
 
@@ -29,13 +22,7 @@ import ImageWithFallback from '../ui/ImageWithFallback';
 const FALLBACK_IMAGE = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><rect width="200" height="200" fill="%23f0f0f0"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="18" fill="%23999">No Image</text></svg>';
 
 /**
- * Componenti memorizzati (memo) per migliorare le prestazioni
- * Il componente memo evita ri-renderizzazioni non necessarie quando le props non cambiano
- */
-
-/**
- * Sezione hero con sfondo a gradiente colorato in cima alla pagina
- * Mostra il titolo principale del negozio e un breve sottotitolo di benvenuto
+ * Sezione Hero: Intestazione principale della homepage.
  */
 const HeroSection = memo(() => (
   <Box 
@@ -56,13 +43,13 @@ const HeroSection = memo(() => (
     </Typography>
   </Box>
 ));
+HeroSection.displayName = 'HeroSection'; // displayName per React.memo
 
 /**
- * Sezione informativa "Chi siamo"
- * Fornisce una breve descrizione dell'azienda e dei suoi valori
+ * Sezione Chi Siamo: Descrizione breve del negozio.
  */
 const AboutSection = memo(() => (
-  <Box sx={{ my: 8, textAlign: 'center', maxWidth: '800px', mx: 'auto' }}>
+  <Box sx={{ my: 4, py: 4, textAlign: 'center', backgroundColor: '#f9f9f9', borderRadius: 2 }}>
     <Typography variant="h4" gutterBottom sx={{ fontWeight: 'medium' }}>
       Chi Siamo
     </Typography>
@@ -73,22 +60,17 @@ const AboutSection = memo(() => (
     </Typography>
   </Box>
 ));
+AboutSection.displayName = 'AboutSection'; // displayName per React.memo
 
 /**
- * Componente card per visualizzare un singolo prodotto
- * Mostra immagine, nome, prezzo, valutazione e sconto (se presente) di un prodotto
- * Include anche un pulsante per visualizzare i dettagli
+ * Componente Card Prodotto: Visualizza un singolo prodotto.
+ * Mostra immagine, nome, prezzo, valutazione e sconto (se presente).
+ * Include un pulsante per visualizzare i dettagli del prodotto.
  * 
- * @param {Object} props - Proprietà del componente
- * @param {Object} props.product - Il prodotto da visualizzare
- * @param {string} props.product.name - Nome del prodotto
- * @param {string} props.product.image - URL dell'immagine del prodotto
- * @param {number} props.product.price - Prezzo del prodotto
- * @param {number} props.product.discount - Percentuale di sconto (opzionale)
- * @param {Object} props.product.rating - Dati sulla valutazione del prodotto
- * @param {Function} props.handleImageError - Funzione per gestire errori nel caricamento dell'immagine
+ * @param {Object} props - Proprietà del componente.
+ * @param {Object} props.product - Dati del prodotto da visualizzare.
  */
-const ProductCard = memo(({ product }) => { // Removed unused handleImageError prop
+const ProductCard = memo(({ product }) => { 
   const rating = useMemo(() => product.rating?.average || 0, [product.rating]);
   const ratingCount = useMemo(() => product.rating?.count || 0, [product.rating]);
   const discount = useMemo(() => parseFloat(product.discount) || 0, [product.discount]);
@@ -215,7 +197,14 @@ const ProductSkeletonCard = memo(() => (
   </Card>
 ));
 
+/**
+ * Sezione Prodotti: Mostra i prodotti (es. in evidenza).
+ * @param {Object} props Props del componente.
+ * @param {boolean} props.loading Stato di caricamento.
+ * @param {Array} props.trendingProducts Array di prodotti da visualizzare.
+ */
 const ProductsSection = memo(({ loading, trendingProducts }) => {
+  const navigate = useNavigate();
   return (
     <Box sx={{ my: 8 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
@@ -252,7 +241,7 @@ const ProductsSection = memo(({ loading, trendingProducts }) => {
               />
             </Grid>
           ))
-        )}
+        }
       </Grid>
       
       {trendingProducts.length === 0 && !loading && (
@@ -265,6 +254,7 @@ const ProductsSection = memo(({ loading, trendingProducts }) => {
     </Box>
   );
 });
+ProductsSection.displayName = 'ProductsSection'; // displayName per React.memo
 
 /**
  * Componente principale della homepage

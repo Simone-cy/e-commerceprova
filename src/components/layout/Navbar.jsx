@@ -14,35 +14,11 @@ import { Link as RouterLink, useNavigate, useLocation } from 'react-router-dom';
 // Importazione dei contesti per accedere a dati di autenticazione, carrello e lista desideri
 import { AuthContext } from '../../contexts/AuthContext';
 import { CartContext } from '../../contexts/CartContext';
-import { WishlistContext } from '../../contexts/WishlistContext';
-// Importazione dei componenti Material-UI
-import {
-  AppBar,
-  Box,
-  Toolbar,
-  IconButton,
-  Typography,
-  Menu,
-  Container,
-  Avatar,
-  Button,
-  Tooltip,
-  MenuItem,
-  Badge,
-  useTheme,
-  useMediaQuery
-} from '@mui/material';
-// Importazione delle icone Material-UI
-import {
-  Menu as MenuIcon,
-  ShoppingCart as ShoppingCartIcon,
-  Favorite as FavoriteIcon,
-  Person as PersonIcon
-} from '@mui/icons-material';
+import { WishlistContext } from '../../contexts/WishlistContext'; // Assicurati che il percorso sia corretto
 
 /**
- * Componente principale della barra di navigazione
- * Gestisce il layout responsivo, i menu di navigazione e le funzionalità utente
+ * Componente Navbar: barra di navigazione principale.
+ * Gestisce layout responsivo, menu, link e icone utente/carrello/wishlist.
  */
 function Navbar() {
   // Accesso al tema Material-UI per applicare stili responsivi
