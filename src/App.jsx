@@ -87,6 +87,7 @@ function App() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/2fa" element={<TwoFactorAuth />} />
                 <Route path="/products" element={<Products />} />
+                <Route path="/demo-admin" element={<DemoAdmin />} />
                 <Route path="/products/:productId" element={<ProductDetail />} />
                 <Route path="/wishlist/:userId" element={<Wishlist />} />
                 
