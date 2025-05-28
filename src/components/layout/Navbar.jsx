@@ -66,7 +66,8 @@ function Navbar() {
   const pages = [
     { title: 'Home', path: '/' },
     { title: 'Products', path: '/products' },
-    { title: 'Contact', path: '/contact' }
+    { title: 'Contact', path: '/contact' },
+    { title: 'Demo Admin', path: '/demo-admin' }
   ];
 
   const authPages = isAuthenticated() ? [
