@@ -237,11 +237,10 @@ const ProductsSection = memo(({ loading, trendingProducts }) => {
             <Grid item key={product.id} xs={12} sm={6} md={3}>
               <ProductCard
                 product={product}
-                // handleImageError prop was unused and can be removed from ProductCard definition
               />
             </Grid>
           ))
-        }
+        )}
       </Grid>
       
       {trendingProducts.length === 0 && !loading && (
@@ -317,13 +316,11 @@ function Home() {
   // Enhanced error handling function with multiple fallbacks
   const handleImageError = useCallback((e) => {
     if (e.target.src !== FALLBACK_IMAGE) {
-      // Try the placehold.co service first
       e.target.src = 'https://placehold.co/200x200/CCCCCC/666666?text=No+Image';
       
-      // Add another event listener to catch if the placeholder also fails
       e.target.onerror = () => {
         e.target.src = FALLBACK_IMAGE;
-        e.target.onerror = null; // Prevent infinite loop
+        e.target.onerror = null; 
       };
     }
   }, []);
