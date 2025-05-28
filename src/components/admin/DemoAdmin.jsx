@@ -15,7 +15,7 @@ function DemoAdmin() {
             <Paper elevation={3} sx={{ p: 3, textAlign: 'center' }}>
                 <Box
                     component="img"
-                    src="./Screenshot 2025-05-28 122835.png" 
+                    src="../../Screenshot 2025-05-28 122835.png" 
                     alt="Interfaccia di Amministrazione"
                     sx={{ width: '100%', maxWidth: 800, borderRadius: 2 }}
                 />
