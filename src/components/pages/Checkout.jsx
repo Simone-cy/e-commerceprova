@@ -219,6 +219,9 @@ function Checkout() {
   const { isAuthenticated, user, token } = useContext(AuthContext);
   const { cart, clearCart } = useContext(CartContext);
   
+  // Definizione della navigazione
+  const navigate = useNavigate();
+
   /**
    * Gestione dello stato attivo nel processo multi-step
    * 
@@ -251,6 +254,8 @@ function Checkout() {
    */
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  // Stato per gestire gli errori di validazione
+  const [errors, setErrors] = useState({});
 
   /**
    * Definizione dei passaggi del processo di checkout.
@@ -276,6 +281,14 @@ function Checkout() {
       fields: []
     }
   ], []);
+
+  /**
+   * Calcolo del totale del carrello.
+   * Utilizza useMemo per ottimizzare le performance evitando ricalcoli inutili.
+   */
+  const totalAmount = useMemo(() => {
+    return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  }, [cart]);
 
   /**
    * Effetto per inizializzare/aggiornare i dati del form quando l'utente cambia.
@@ -429,11 +442,16 @@ function Checkout() {
           {checkoutSteps[activeStep].component === OrderSummary ? (
             <OrderSummary formData={formData} cart={cart} cartTotal={totalAmount} />
           ) : (
-            <checkoutSteps[activeStep].component
-              formData={formData}
-              handleChange={handleChange}
-              errors={errors}
-            />
+            (() => {
+              const StepComponent = checkoutSteps[activeStep].component;
+              return (
+                <StepComponent
+                  formData={formData}
+                  handleChange={handleChange}
+                  errors={errors}
+                />
+              );
+            })()
           )}
 
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
