@@ -27,6 +27,7 @@ import Register from './components/auth/Register';
 import TwoFactorAuth from './components/auth/TwoFactorAuth';
 // Componenti dell'area amministrativa riservata
 import AdminProducts from './components/admin/AdminProducts';
+import DemoAdmin from './components/admin/DemoAdmin';
 // Provider dei contesti per la condivisione dello stato globale tra componenti
 import { AuthProvider } from './contexts/AuthContext';
 import { CartProvider } from './contexts/CartContext';
