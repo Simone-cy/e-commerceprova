@@ -16,7 +16,7 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { CartContext } from '../../contexts/CartContext';
 import { WishlistContext } from '../../contexts/WishlistContext'; // Assicurati che il percorso sia corretto
 // Importazione degli hook e componenti Material-UI necessari
-import { AppBar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography, Avatar, Badge } from '@mui/material';
+import { AppBar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography, Avatar, Badge, useMediaQuery } from '@mui/material';
 import { ShoppingCart as ShoppingCartIcon, Favorite as FavoriteIcon, Menu as MenuIcon, Person as PersonIcon } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
 
