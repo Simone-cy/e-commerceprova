@@ -15,6 +15,10 @@ import { Link as RouterLink, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
 import { CartContext } from '../../contexts/CartContext';
 import { WishlistContext } from '../../contexts/WishlistContext'; // Assicurati che il percorso sia corretto
+// Importazione degli hook e componenti Material-UI necessari
+import { AppBar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography, Avatar, Badge } from '@mui/material';
+import { ShoppingCart as ShoppingCartIcon, Favorite as FavoriteIcon, Menu as MenuIcon, Person as PersonIcon } from '@mui/icons-material';
+import { useTheme } from '@mui/material/styles';
 
 /**
  * Componente Navbar: barra di navigazione principale.
@@ -216,7 +220,7 @@ function Navbar() {
                       content: '""',
                       position: 'absolute',
                       width: active ? '100%' : '0',
-                      height: '1px',  // Ridotto da 2px a 1px
+                      height: '1px', 
                       bottom: '6px',
                       left: 0,
                       backgroundColor: 'white',
@@ -296,8 +300,8 @@ function Navbar() {
                     onClick={handleOpenUserMenu} 
                     sx={{ 
                       p: 0,
-                      width: 40, // Dimensione fissa
-                      height: 40, // Dimensione fissa
+                      width: 40, 
+                      height: 40, 
                       display: 'flex',
                       justifyContent: 'center',
                       alignItems: 'center',
