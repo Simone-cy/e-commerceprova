@@ -1,6 +1,4 @@
 /**
- * AdminProducts.jsx
- * 
  * Questo file implementa l'interfaccia di amministrazione per la gestione dei prodotti
  * dell'e-commerce. Fornisce funzionalità complete per:
  * - Visualizzare l'elenco di tutti i prodotti presenti nel sistema
