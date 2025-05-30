@@ -1,6 +1,4 @@
 /**
- * ReviewSection.jsx
- * 
  * Questo componente implementa la sezione di recensioni per i prodotti dell'e-commerce.
  * Fornisce un'interfaccia completa per visualizzare, aggiungere e gestire le recensioni
  * dei prodotti, con funzionalità di valutazione a stelle e commenti testuali.
