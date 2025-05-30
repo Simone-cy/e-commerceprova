@@ -1,6 +1,4 @@
 /**
- * ProtectedRoute.jsx
- * 
  * Questo componente implementa un sistema di protezione delle rotte nell'applicazione.
  * Si occupa di verificare se l'utente è autenticato prima di consentire l'accesso
  * a determinate pagine o sezioni dell'app che richiedono autenticazione.
