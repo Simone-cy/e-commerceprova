@@ -1,6 +1,4 @@
 /**
- * ApiTester.jsx
- * 
  * Componente utility per testare le richieste API e verificare il corretto funzionamento del proxy.
  * Permette di:
  * - Testare endpoint API personalizzati
