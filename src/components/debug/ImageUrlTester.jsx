@@ -1,6 +1,4 @@
 /**
- * ImageUrlTester.jsx
- * 
  * Componente per il test diretto degli URL delle immagini
  * Fornisce un'interfaccia per verificare il caricamento delle immagini in diverse modalità:
  * - Test diretto dell'URL
