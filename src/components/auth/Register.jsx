@@ -1,6 +1,4 @@
 /**
- * Register.jsx
- * 
  * Questo file implementa la pagina di registrazione dell'applicazione e-commerce.
  * Gestisce un processo di registrazione in due fasi:
  * 1. Inserimento delle informazioni dell'account (nome, email, password)
