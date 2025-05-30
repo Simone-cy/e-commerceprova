@@ -1,6 +1,4 @@
 /**
- * ImageDebugger.jsx
- * 
  * Strumento di debug per verificare il caricamento e la visualizzazione delle immagini 
  * nell'applicazione. Questo componente è utile durante lo sviluppo per testare:
  * - La corretta configurazione degli URL delle immagini
