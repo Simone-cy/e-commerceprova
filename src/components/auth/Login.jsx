@@ -1,6 +1,4 @@
 /**
- * Login.jsx
- * 
  * Questo file implementa la pagina di login dell'applicazione e-commerce.
  * Gestisce l'autenticazione dell'utente con email e password,
  * validazione dei dati di input, e reindirizzamenti appropriati
