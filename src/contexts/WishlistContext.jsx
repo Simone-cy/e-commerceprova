@@ -1,7 +1,5 @@
 
 /**
- * WishlistContext.jsx
- * 
  * Questo file implementa il contesto per la gestione della lista desideri (wishlist)
  * dell'utente nell'applicazione e-commerce. Fornisce funzionalità per recuperare, 
  * aggiungere e rimuovere prodotti dalla wishlist, con aggiornamenti ottimistici 
@@ -81,7 +79,6 @@ export function WishlistProvider({ children }) {
   }, [isAuthenticated, token]);
   /**
    * Carica la wishlist quando l'utente cambia o si autentica
-   * Questo effect si attiva quando cambiano le dipendenze: isAuthenticated, token, fetchWishlist
    */
   useEffect(() => {
     // Se l'utente è autenticato, carica la wishlist dal server
@@ -188,7 +185,7 @@ export function WishlistProvider({ children }) {
         })
       });
       
-      if (!response.ok) {        throw new Error(`Richiesta fallita: ${response.statusText}`);
+      if (!response.ok) {throw new Error(`Richiesta fallita: ${response.statusText}`);
       }
       
       const data = await response.json();
