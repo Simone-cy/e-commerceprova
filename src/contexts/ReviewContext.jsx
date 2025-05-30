@@ -1,5 +1,5 @@
 /**
- * ReviewContext.jsx: Contesto per la gestione delle recensioni dei prodotti.
+ * Contesto per la gestione delle recensioni dei prodotti.
  * Fornisce funzionalità per recuperare, aggiungere, aggiornare ed eliminare recensioni.
  */
 
@@ -182,7 +182,7 @@ export function ReviewProvider({ children }) {
           'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({ reviewId })
-      });      // Converte la risposta in formato JSON
+      });      
       const data = await response.json();
 
       // Controlla se l'operazione ha avuto successo
