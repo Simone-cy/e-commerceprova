@@ -1,7 +1,5 @@
 
 /**
- * Componente TwoFactorAuth
- * 
  * Questo componente gestisce l'autenticazione a due fattori (2FA) degli utenti.
  * Dopo l'autenticazione iniziale con email e password, l'utente deve inserire
  * un codice temporaneo ricevuto tramite email o app di autenticazione per
